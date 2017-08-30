@@ -1,0 +1,40 @@
+<?php
+class suggestions{
+    private $data;
+    private $value;
+    
+    public function __construct($data , $value) {
+        $this->data = $data;
+        $this->value = $value;
+    }
+}
+require_once 'funcoes.php';
+/* 
+if (!isset($_GET['keyword'])) {
+    // Do nothing if no keyword!
+    die();
+}
+
+$keyword = $_GET['keyword'] . '%';
+ */
+// If you want the keyword to be "contained" in the data, use (uncomment it):
+//$keyword = '%' . $_GET['keyword'] . '%';
+
+// Query.
+$sql = "EXEC sp_listaSubconta";
+
+$stmt = getPDOInstace()->prepare($sql);
+//$stmt->bindParam(1, $keyword);
+
+// Executing.
+$stmt->execute();
+
+// Fetching.
+$data;
+$data1 =$stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach($data1 as $lines){
+    //echo $lines['data'];
+    $data[] = new suggestions($lines['data'],$lines['value']);
+}
+
